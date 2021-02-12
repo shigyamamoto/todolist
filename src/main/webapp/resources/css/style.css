@@ -1,0 +1,12 @@
+h1 a {
+	text-decoration:none;
+}
+button.edit {
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+button.delete {
+	padding-top: 0;
+	padding-bottom: 0;
+}

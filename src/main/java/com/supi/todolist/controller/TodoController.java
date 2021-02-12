@@ -12,19 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.supi.todolist.entity.Task;
-import com.supi.todolist.form.TaskCreateForm;
 
-/**
- * Handles requests for the application home page.
- */
 @Controller
 public class TodoController {
 
@@ -32,11 +26,6 @@ public class TodoController {
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
-
-	@ModelAttribute
-	TaskCreateForm setUpForm() {
-		return new TaskCreateForm();
-	}
 
 	/**
 	 * タスク一覧画面
@@ -88,13 +77,12 @@ public class TodoController {
 	 * @return
 	 */
 	@RequestMapping(value = "/tasks/store", method = RequestMethod.POST)
-	public String store(Locale locale, Model model, @Validated TaskCreateForm form) {
-		logger.info(form.getName());
+	public String store(Locale locale, Model model, @RequestParam("name") String name) {
 		// SQL文を設定する
 		String sql = "INSERT INTO task (name) VALUES (?)";
 
 		// データをINSERTする
-		jdbcTemplate.update(sql, form.getName());
+		jdbcTemplate.update(sql, name);
 
 		return "redirect:/tasks";
 	}
